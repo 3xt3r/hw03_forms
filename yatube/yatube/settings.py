@@ -1,15 +1,10 @@
 import os
-from dotenv import load_dotenv
 from pathlib import Path
 NUMBER_OF_POSTS = 10
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-load_dotenv()
-env_path = Path('.') / '.env'
-load_dotenv(env_path)
-
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = ')g0k@f&&ue#%zjqv)5#l4x2$!r@aeg@^ve9%8ri5*+159%)d*0'
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
 DEBUG = True
