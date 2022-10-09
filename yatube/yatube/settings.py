@@ -6,6 +6,7 @@ SECRET_KEY = ')g0k@f&&ue#%zjqv)5#l4x2$!r@aeg@^ve9%8ri5*+159%)d*0'
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'posts:index'
 DEBUG = True
+NUMBER_OF_POSTS = 10
 
 ALLOWED_HOSTS = []
 
