@@ -18,7 +18,6 @@ def group_posts(request, slug):
     posts = group.posts.all().order_by('-pub_date')
     context = {
         'group': group,
-        'posts': posts,
     }
     context.update(get_paginator(group.posts.all(), request))
     return render(request, 'posts/group_list.html', context)
@@ -59,10 +58,11 @@ def post_create(request):
 @login_required
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    if post.author.id == request.user.id:
-        form = PostForm(request.POST or None, instance=post)
-        if form.is_valid():
-            form.save()
-            return redirect('posts:post_detail', post_id=post_id)
+    if post.author != request.user:
+        return redirect('posts:post_detail', post_id=post.pk)
+    form = PostForm(request.POST or None, instance=post)
+    if form.is_valid():
+        form.save()       
+        return redirect('posts:post_detail', post_id=post.pk)
     return render(request, 'posts/create_post.html',
-                  {'form': form, 'is_edit': True, 'post_id': post_id, })
+                {'form': form, 'is_edit': True, 'post_id': post_id, })
