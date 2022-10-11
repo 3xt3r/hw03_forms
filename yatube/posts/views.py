@@ -15,7 +15,6 @@ def group_posts(request, slug):
     group = get_object_or_404(
         Group.objects.all().prefetch_related('posts'),
         slug=slug)
-    posts = group.posts.all().order_by('-pub_date')
     context = {
         'group': group,
     }
@@ -45,7 +44,9 @@ def post_create(request):
     form = PostForm(request.POST or None)
 
     if not form.is_valid():
-        context = {'form': form}
+        context = {
+            'form': form,
+        }
         return render(request, 'posts/create_post.html', context)
 
     post = form.save(commit=False)
@@ -62,7 +63,11 @@ def post_edit(request, post_id):
         return redirect('posts:post_detail', post_id=post.pk)
     form = PostForm(request.POST or None, instance=post)
     if form.is_valid():
-        form.save()       
+        form.save()
         return redirect('posts:post_detail', post_id=post.pk)
-    return render(request, 'posts/create_post.html',
-                {'form': form, 'is_edit': True, 'post_id': post_id, })
+    context = {
+        'form': form,
+        'is_edit': True,
+        'post_id': post_id,
+    }
+    return render(request, 'posts/create_post.html', context)
